@@ -13,6 +13,7 @@ type Storage interface {
 	// AllPosts returns an array containing every single post available.
 	AllPosts() ([]*Post, error)
 
+	// Migrate runs the database migration.
 	Migrate() error
 
 	// SavePosts saves the specified posts to the database.

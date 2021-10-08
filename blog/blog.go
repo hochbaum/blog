@@ -19,9 +19,9 @@ type Blog interface {
 
 // Post is a single published post on the blog.
 type Post struct {
-	gorm.Model
+	gorm.Model // gorm.Model contains fields such as ID and CreatedAt.
 
-	Title     string `gorm:"type:varchar(120);not null"`
+	Title string `gorm:"type:varchar(120);not null"`
 
 	// This is used for an ugly workaround. The htmlContent is actually using Content for formatting,
 	// which the blog later translates to HTML. For accessing the actual htmlContent, the HTML()

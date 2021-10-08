@@ -47,6 +47,7 @@ func main() {
 	}
 }
 
+// examplePosts contains a few blog.Post which will be created on the first execution.
 var examplePosts = []*blog.Post{
 	{
 		Title: "Lorem ipsum",
