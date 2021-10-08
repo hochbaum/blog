@@ -88,9 +88,9 @@
         {{ range .Posts }}
         <div class="container blogpost">
             <i class="fas fa-calendar-alt"></i>
-            {{ .Timestamp.Format "Jan. 02, 2006" }}
+            {{ .CreatedAt.Format "Jan. 02, 2006" }}
             <h2>{{ .Title }}</h2>
-            <p>{{ .Content }}</p>
+            <p>{{ .HTML }}</p>
         </div>
         {{ end }}
     </div>

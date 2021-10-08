@@ -2,10 +2,10 @@ package blog
 
 import (
 	"github.com/gorilla/mux"
+	"gorm.io/gorm"
 	"hochbaum.dev/blog/blog/markdown"
 	"html/template"
 	"net/http"
-	"time"
 )
 
 // Blog defines the application itself and allows for control over posts and users.
@@ -19,24 +19,24 @@ type Blog interface {
 
 // Post is a single published post on the blog.
 type Post struct {
-	ID        uint
-	Title     string
-	Timestamp time.Time
+	gorm.Model
 
-	// This is used for an ugly workaround. The content is actually using Markdown for formatting,
-	// which the blog later translates to HTML. For accessing the actual content, the Content()
+	Title     string `gorm:"type:varchar(120);not null"`
+
+	// This is used for an ugly workaround. The htmlContent is actually using Content for formatting,
+	// which the blog later translates to HTML. For accessing the actual htmlContent, the HTML()
 	// function should be used, as it uses the fields for lazy loading.
-	content    template.HTML
-	rawContent string
+	htmlContent template.HTML `gorm:"-"`
+	Content     string        `gorm:"size:max;not null"`
 }
 
-// Returns the content of the post. The content is lazily translated from Markdown to HTML. See
+// HTML returns the htmlContent of the post. The htmlContent is lazily translated from Content to HTML. See
 // Post documentation.
-func (post *Post) Content() template.HTML {
-	if post.content == "" {
-		post.content = markdown.ToHtml(post.rawContent)
+func (post *Post) HTML() template.HTML {
+	if post.htmlContent == "" {
+		post.htmlContent = markdown.ToHtml(post.Content)
 	}
-	return post.content
+	return post.htmlContent
 }
 
 // server is the default Blog implementation, which spins up a web server using the mux library.
